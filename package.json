@@ -1,0 +1,25 @@
+{
+  "name": "express-biztime",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/terchiem/express-biztime.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/terchiem/express-biztime/issues"
+  },
+  "homepage": "https://github.com/terchiem/express-biztime#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "pg": "^8.0.1"
+  }
+}
