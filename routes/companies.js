@@ -29,23 +29,36 @@ router.get("/", async function (req, res, next) {
  * GET "/companies/:code"
  * Get back the specified company.
  * 
- * Returns a JSON obj for the company: {company: {code, name, description}}
+ * Returns a JSON obj for the company: {company: {code, name, description, invoices: [id, ...]}}
  */
 router.get("/:code", async function (req, res, next) {
   try {
     // get specific company from db
-    let result = await db.query(`
+    let companyResultP = db.query(`
       SELECT code, name, description
         FROM companies
-        WHERE code = $1
-    `, [req.params.code])
+        WHERE code = $1`, 
+        [req.params.code])
+
+    // get invoices for specified company from db
+    let invoiceResultP = db.query(`
+      SELECT id, amt, paid, add_date, paid_date
+        FROM invoices
+        WHERE comp_code = $1`,
+        [req.params.code]);
+
+    let companyResult = await companyResultP;
+    let invoiceResult = await invoiceResultP;
 
     // throw error if no results
-    if (result.rows.length === 0) {
+    if (companyResult.rows.length === 0) {
       throw new ExpressError(`Cannot find company for ${req.params.code}!`, NOT_FOUND);
     }
 
-    return res.json({company: result.rows[0]});
+    const company = companyResult.rows[0];
+    company.invoices = invoiceResult.rows;
+
+    return res.json({company});
   } catch(err) {
     return next(err);
   }
