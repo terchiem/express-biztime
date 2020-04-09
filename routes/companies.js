@@ -1,10 +1,11 @@
 const db = require("../db");
 const express = require("express");
-const ExpressError = require("../expressError")
+const ExpressError = require("../expressError");
 
 const router = new express.Router();
 
-const NOT_FOUND = 404
+const {NOT_FOUND} = require("../globals");
+
 
 /**
  * GET "/companies" 
@@ -41,7 +42,7 @@ router.get("/:code", async function (req, res, next) {
 
     // throw error if no results
     if (result.rows.length === 0) {
-      throw new ExpressError(`Cannot find company for ${req.params.code}!`, 404);
+      throw new ExpressError(`Cannot find company for ${req.params.code}!`, NOT_FOUND);
     }
 
     return res.json({company: result.rows[0]});
@@ -94,7 +95,7 @@ router.put("/:code", async function (req, res, next) {
 
     // throw error if no results
     if (result.rows.length === 0) {
-      throw new ExpressError(`Cannot find company for ${req.params.code}!`, 404);
+      throw new ExpressError(`Cannot find company for ${req.params.code}!`, NOT_FOUND);
     }
 
     return res.json({company: result.rows[0]});
@@ -120,7 +121,7 @@ router.delete("/:code", async function (req, res, next) {
 
     // throw error if no results
     if (result.rows.length === 0) {
-      throw new ExpressError(`Cannot find company for ${req.params.code}!`, 404);
+      throw new ExpressError(`Cannot find company for ${req.params.code}!`, NOT_FOUND);
     }
 
     return res.json({status: "deleted"})    ;
