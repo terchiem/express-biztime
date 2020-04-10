@@ -54,7 +54,7 @@ describe("GET /companies/:code", function() {
       code: testCompany.code,
       name: testCompany.name,
       description: testCompany.description,
-      invoices: expect.any(Array)
+      invoices: expect.any(Array) //make sure you test getting the actual invoice
     }});
   });
 
